@@ -23,6 +23,7 @@ struct ContentView: View {
         let grandTotal = checkAmount + tipValue
         let amountPerPerson = grandTotal / peopleCount
         
+        
         return amountPerPerson
     }
     
@@ -32,12 +33,16 @@ struct ContentView: View {
         return checkAmount + tipValue
     }
     
+    var dollarFormat: FloatingPointFormatStyle<Double>.Currency {
+        let currencyCode = Locale.current.currencyCode ?? "USD"
+        return FloatingPointFormatStyle<Double>.Currency(code: currencyCode)
+    }
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    TextField("Amount", value: $checkAmount, format: dollarFormat)
                         .keyboardType(.decimalPad)
                         .focused($checkIsFocused)
                     
@@ -64,13 +69,13 @@ struct ContentView: View {
                     HStack {
                         Text("Grand total")
                         Spacer()
-                        Text(grandTotal, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                        Text(grandTotal, format: dollarFormat)
                             .bold()
                     }
                     HStack {
                         Text("Check per person")
                         Spacer()
-                        Text(totalPerPerson, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                        Text(totalPerPerson, format: dollarFormat)
                             .bold()
                     }
                 } header: {
